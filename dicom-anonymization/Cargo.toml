@@ -12,6 +12,7 @@ license = "MIT OR Apache-2.0"
 [lib]
 name = "dicom_anonymization"
 path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
 
 [[bin]]
 name = "dcmanon"
