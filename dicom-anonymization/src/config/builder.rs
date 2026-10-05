@@ -373,7 +373,7 @@ impl Default for ConfigBuilder {
             .tag_action(tags::TIMEZONE_OFFSET_FROM_UTC, Action::Remove)
             // checked nic's until here
             .tag_action(tags::STATION_NAME, Action::Remove)
-            .tag_action(tags::STUDY_DESCRIPTION, Action::None)
+            .tag_action(tags::STUDY_DESCRIPTION, Action::Remove)
             .tag_action(tags::PROCEDURE_CODE_SEQUENCE, Action::None)
             .tag_action(tags::SERIES_DESCRIPTION, Action::None)
             .tag_action(tags::INSTITUTIONAL_DEPARTMENT_NAME, Action::Remove)
