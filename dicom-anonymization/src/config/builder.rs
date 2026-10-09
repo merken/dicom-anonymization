@@ -1,6 +1,7 @@
 use crate::Tag;
 use crate::actions::Action;
 use crate::actions::Action::HashUID;
+use crate::config::HashAlgorithm;
 use crate::config::uid_root::{UID_ROOT_DEFAULT_VALUE, UidRoot};
 use crate::config::{Config, DEIDENTIFIER};
 use crate::hasher::HashFn;
@@ -55,6 +56,10 @@ impl ConfigBuilder {
     /// ```
     pub fn from_config(mut self, config: &Config) -> Self {
         // only explicitly set or override these if they are not `None` in the given `Config`
+        if let Some(hash_algorithm) = config.hash_algorithm {
+            self.0.hash_algorithm = Some(hash_algorithm);
+            self.0.hash_fn = hash_algorithm.hash_fn();
+        }
         if let Some(uid_root) = config.uid_root.clone() {
             self.0.uid_root = Some(uid_root);
         }
@@ -114,6 +119,16 @@ impl ConfigBuilder {
     /// ```
     pub fn uid_root(mut self, uid_root: UidRoot) -> Self {
         self.0.uid_root = Some(uid_root);
+        self
+    }
+
+    /// Sets the hash algorithm used by all hashing actions (e.g. UID derivation).
+    ///
+    /// Defaults to BLAKE3 when not set. Use `HashAlgorithm::Sha256` to derive UIDs
+    /// with SHA-256 (e.g. for the canonical cross-implementation derivation).
+    pub fn hash_algorithm(mut self, algorithm: HashAlgorithm) -> Self {
+        self.0.hash_algorithm = Some(algorithm);
+        self.0.hash_fn = algorithm.hash_fn();
         self
     }
 
